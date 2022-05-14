@@ -1,8 +1,13 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import {NestFactory} from '@nestjs/core'
+import {AppModule} from './app.module'
+import {connect as connectToEventStore} from './event-store'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  const app = await NestFactory.create(AppModule)
+  await connectToEventStore()
+  await app.listen(3000)
 }
-bootstrap();
+
+bootstrap().then(() =>
+  console.log('Application is running on: http://localhost:3000'),
+)
